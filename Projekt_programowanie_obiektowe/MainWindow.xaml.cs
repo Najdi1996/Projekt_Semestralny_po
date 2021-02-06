@@ -23,6 +23,43 @@ namespace Projekt_programowanie_obiektowe
         public MainWindow()
         {
             InitializeComponent();
+            populateChorobyGrid();
+        }
+        private void populateChorobyGrid()
+        {
+            //grdChoroby.AutoGenerateColumns = false;
+            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
+            grdChoroby.ItemsSource = db.Choroby.ToList();
+        }
+
+        private void grdChoroby_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void btnAddChoroba_Click(object sender, RoutedEventArgs e)
+        {
+            Choroby choroba = new Choroby();
+            choroba.nr_choroby = txtNrChoroby.Text;
+            choroba.opis_choroby = txtOpisChoroby.Text;
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+                db.Choroby.Add(choroba);
+                db.SaveChanges();
+                populateChorobyGrid();
+                MessageBox.Show("Informacja o chorobie dodana do bazy");
+                clearChorobyTextBoxes();
+            } 
+        }
+        private void clearChorobyTextBoxes()
+        {
+            txtNrChoroby.Text = "";
+            txtOpisChoroby.Text = "";
+        }
+
+        private void grdChoroby_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            String ChorobaID = grdChoroby.CurrentItem.ToString();
         }
     }
 }
