@@ -25,12 +25,16 @@ namespace Projekt_programowanie_obiektowe
         {
             InitializeComponent();
             populateChorobyGrid();
+            populateLekarzeGrid();
+        }
+        private List<Choroby> readChoroby()
+        {
+           PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
+            return db.Choroby.ToList();
         }
         private void populateChorobyGrid()
         {
-            //grdChoroby.AutoGenerateColumns = false;
-            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
-            grdChoroby.ItemsSource = db.Choroby.ToList();
+            grdChoroby.ItemsSource = this.readChoroby();
         }
 
         private void grdChoroby_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -163,6 +167,88 @@ namespace Projekt_programowanie_obiektowe
             {
                 btnEditChoroba.IsEnabled = false;
             }
+        }
+        private List<Lekarze> readLekarze()
+        {
+            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
+            return db.Lekarze.ToList();
+        }
+        private void populateLekarzeGrid()
+        {
+            grdLekarze.ItemsSource = this.readLekarze();
+        }
+        private void grdLekarze_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void grdLekarze_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        private void clearLekarzeTextBoxes()
+        {
+            txtNrLekarza.Text = "";
+            txtImieLekarza.Text = "";
+            txtNazwiskoLekarza.Text = "";
+        }
+
+        private void btnClearLekarze_Click(object sender, RoutedEventArgs e)
+        {
+            clearLekarzeTextBoxes();
+        }
+
+        private List<Pacjenci> readPacjenci()
+        {
+            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
+            return db.Pacjenci.ToList();
+        }
+        private List<Wizyty> readWizyty()
+        {
+            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
+            return db.Wizyty.ToList();
+        }
+
+        private void populateUmawianie()
+        {
+            grdUmawianieChoroby.ItemsSource = this.readChoroby();
+            grdUmawianieLekarzy.ItemsSource = this.readLekarze();
+            grdUmawianiePacjenci.ItemsSource = this.readPacjenci();
+        }
+
+        private void TabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            populateUmawianie();
+        }
+
+        private void btnZapiszWizyte_Click(object sender, RoutedEventArgs e)
+        {
+            Lekarze lekarz = (Lekarze)grdUmawianieLekarzy.SelectedItem;
+            Pacjenci pacjent = (Pacjenci)grdUmawianiePacjenci.SelectedItem;
+            List<Choroby> choroba = (List<Choroby>)grdUmawianieChoroby.SelectedItems.OfType<Choroby>().ToList();
+            Wizyty wizyty = new Wizyty();
+            wizyty.Lekarze = lekarz;
+            wizyty.Pacjenci = pacjent;
+            wizyty.Choroby = choroba;
+            /*using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+                db.Wizyty.Add(wizyty);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                {
+                    MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                    return;
+                }
+
+                
+                MessageBox.Show("Informacja o wizycie dodana do bazy");
+            
+                
+            }
+            */
         }
     }
 }
