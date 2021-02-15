@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,15 +22,30 @@ namespace Projekt_programowanie_obiektowe
     public partial class MainWindow : Window
     {
         Choroby chorobaEdit;
+        Lekarze lekarzEdit;
+        PrzychodniaProjectDBEntities context = new PrzychodniaProjectDBEntities();
+        CollectionViewSource chorobyViewSource1;
+        private Choroby _selectedChoroby;
+        public Choroby selectedChoroby
+        {
+            get { return _selectedChoroby; }
+            set { _selectedChoroby = value;
+               // OnPropertyChanged("selectedChoroby");
+            }
+            
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             populateChorobyGrid();
             populateLekarzeGrid();
+            populatePacjenciGrid();
+            DataContext = this;
         }
         private List<Choroby> readChoroby()
         {
-           PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
+            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
             return db.Choroby.ToList();
         }
         private void populateChorobyGrid()
@@ -45,7 +61,7 @@ namespace Projekt_programowanie_obiektowe
         private void btnAddChoroba_Click(object sender, RoutedEventArgs e)
         {
             Choroby choroba = new Choroby();
-            
+
             choroba.nr_choroby = txtNrChoroby.Text;
             choroba.opis_choroby = txtOpisChoroby.Text;
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
@@ -64,7 +80,7 @@ namespace Projekt_programowanie_obiektowe
                 populateChorobyGrid();
                 MessageBox.Show("Informacja o chorobie dodana do bazy");
                 clearChorobyTextBoxes();
-            } 
+            }
         }
         private void clearChorobyTextBoxes()
         {
@@ -101,25 +117,25 @@ namespace Projekt_programowanie_obiektowe
 
         private void btnEditChoroba_Click(object sender, RoutedEventArgs e)
         {
-            
-            
+
+
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-                
+
                 Choroby choroba = db.Choroby.SingleOrDefault(c => c.nr_choroby == txtNrChoroby.Text);
-              
+
                 if (choroba != null)
                 {
-                try
-                {
-                    choroba.opis_choroby = txtOpisChoroby.Text;
-                    db.SaveChanges();
-                }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
-                {
-                    MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
-                    return;
-                }
+                    try
+                    {
+                        choroba.opis_choroby = txtOpisChoroby.Text;
+                        db.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                    {
+                        MessageBox.Show("Wystąpił problem z zaaktualizowaniem choroby w bazie , opis błędu : " + ex.InnerException.InnerException.Message);
+                        return;
+                    }
                 }
 
                 populateChorobyGrid();
@@ -145,7 +161,7 @@ namespace Projekt_programowanie_obiektowe
                     }
                     catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
                     {
-                        MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                        MessageBox.Show("Wystąpił problem z usunięciem z bazy , opis błędu : " + ex.InnerException.InnerException.Message);
                         return;
                     }
                 }
@@ -159,7 +175,7 @@ namespace Projekt_programowanie_obiektowe
 
         private void txtOpisChoroby_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(txtOpisChoroby.Text != this.chorobaEdit.opis_choroby)
+            if (txtOpisChoroby.Text != this.chorobaEdit.opis_choroby)
             {
                 btnEditChoroba.IsEnabled = true;
             }
@@ -170,12 +186,18 @@ namespace Projekt_programowanie_obiektowe
         }
         private List<Lekarze> readLekarze()
         {
-            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
-            return db.Lekarze.ToList();
+
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+                return db.Lekarze.ToList();
+            };
+            
+
         }
         private void populateLekarzeGrid()
         {
             grdLekarze.ItemsSource = this.readLekarze();
+
         }
         private void grdLekarze_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -184,7 +206,14 @@ namespace Projekt_programowanie_obiektowe
 
         private void grdLekarze_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            Lekarze lekarz = (Lekarze)grdLekarze.CurrentItem;
+            this.lekarzEdit = lekarz;
+            //txtNrLekarza.Text = int Lekarze.nr_lekarza;
+            txtNrLekarza.IsEnabled = false;
+            txtImieLekarza.Text = lekarz.imie_lekarza;
+            txtNazwiskoLekarza.Text = lekarz.nazwisko_lekarza;
+            btnDeleteLekarze.IsEnabled = false;
+            btnAddLekarze.IsEnabled = false;
         }
         private void clearLekarzeTextBoxes()
         {
@@ -196,12 +225,105 @@ namespace Projekt_programowanie_obiektowe
         private void btnClearLekarze_Click(object sender, RoutedEventArgs e)
         {
             clearLekarzeTextBoxes();
+            txtNrLekarza.IsEnabled = true;
+            btnDeleteLekarze.IsEnabled = false;
+            btnEditLekarze.IsEnabled = false;
+            btnAddLekarze.IsEnabled = true;
+        }
+        private void btnAddLekarze_Click(object sender, RoutedEventArgs e)
+        {
+            Lekarze lekarz = new Lekarze();
+
+            //lekarz.nr_lekarza = txtNrLekarza.Text;
+            lekarz.imie_lekarza = txtImieLekarza.Text;
+            lekarz.nazwisko_lekarza = txtNazwiskoLekarza.Text;
+
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+                db.Lekarze.Add(lekarz);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                {
+                    MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                    return;
+                }
+
+                populateLekarzeGrid();
+                MessageBox.Show("Informacja o lekarzu dodana do bazy");
+                clearLekarzeTextBoxes();
+            }
+        }
+        private void btnDeleteLekarze_Click(object sender, RoutedEventArgs e)
+        {
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+
+                Lekarze lekarz = (Lekarze)grdLekarze.CurrentItem;
+
+                if (lekarz != null)
+                {
+                    try
+                    {
+                        db.Entry(lekarz).State = EntityState.Deleted;
+                        //db.Lekarze.Remove(lekarz);
+                        db.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                    {
+                        MessageBox.Show("Wystąpił problem z usunięciem z bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                        return;
+                    }
+                }
+
+                populateLekarzeGrid();
+                MessageBox.Show("Informacja o lekarzu została usunięta z bazy");
+                
+            }
+        }
+        private void btnEditLekarze_Click(object sender, RoutedEventArgs e)
+        {
+            NewLekarz nl = new NewLekarz(grdLekarze.SelectedItem as Lekarze);
+            nl.Activate();
+            nl.Show();
+            nl.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
+        }
+
+        private void txtImieLekarza_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtImieLekarza.Text != this.lekarzEdit.imie_lekarza)
+            {
+                btnEditLekarze.IsEnabled = true;
+            }
+            else
+            {
+                btnEditLekarze.IsEnabled = false;
+            }
+        }
+
+        private void txtNazwiskoLekarza_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtNazwiskoLekarza.Text != this.lekarzEdit.nazwisko_lekarza)
+            {
+                btnEditLekarze.IsEnabled = true;
+            }
+            else
+            {
+                btnEditLekarze.IsEnabled = false;
+            }
         }
 
         private List<Pacjenci> readPacjenci()
         {
             PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
             return db.Pacjenci.ToList();
+        }
+
+        private void populatePacjenciGrid()
+        {
+            grdPacjenci.ItemsSource = this.readPacjenci();
         }
         private List<Wizyty> readWizyty()
         {
@@ -250,5 +372,72 @@ namespace Projekt_programowanie_obiektowe
             }
             */
         }
+
+        // do skasowania!!!
+        private void resNowaChorobaHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            NewChoroba nc = new NewChoroba();
+            nc.Activate();
+            nc.DataContext = context;
+            nc.Show();
+            nc.chorobyEntityChanged += ChorobyEntityChanged_Handler; 
+
+        }
+        private void btnDelChorobyHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            context.Choroby.Remove(selectedChoroby);
+
+        }
+        
+
+
+        private void ChorobyEntityChanged_Handler()
+        {
+            context.Choroby.Load();
+            chorobyViewSource1.View.Refresh();
+        }
+        
+       
+        private void LekarzeEntityChanged_Handler()
+        {
+            populateLekarzeGrid(); 
+        }
+
+
+        private void btnNowyLekarz_Click(object sender, RoutedEventArgs e)
+        {
+            NewLekarz nl = new NewLekarz();
+            nl.Activate();
+            nl.Show();
+            nl.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
+            
+        }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            chorobyViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("chorobyViewSource1")));
+            //context. += new EventHandler(context_SaveChanges);
+            // Load data by setting the CollectionViewSource.Source property:
+            // chorobyViewSource1.Source = [generic data source]
+
+            context.Choroby.Load();
+            chorobyViewSource1.Source = context.Choroby.Local;
+            
+        }
+
+        
+
+        /*private void Window_Loaded(object sender, RoutedEventArgs e)
+         {
+
+             Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSet przychodniaProjectDBDataSet = ((Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSet)(this.FindResource("przychodniaProjectDBDataSet")));
+             // Load data into the table Choroby. You can modify this code as needed.chorobyViewSource
+             Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.ChorobyTableAdapter przychodniaProjectDBDataSetChorobyTableAdapter = new Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.ChorobyTableAdapter();
+             przychodniaProjectDBDataSetChorobyTableAdapter.Fill(przychodniaProjectDBDataSet.Choroby);
+             System.Windows.Data.CollectionViewSource chorobyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("chorobyViewSource")));
+             chorobyViewSource.View.MoveCurrentToFirst();
+         }
+        */
     }
 }

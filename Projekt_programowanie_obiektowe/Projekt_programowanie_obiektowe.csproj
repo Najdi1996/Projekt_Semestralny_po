@@ -70,6 +70,12 @@
     <Compile Include="Lekarze.cs">
       <DependentUpon>PrzychodniaDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="NewChoroba.xaml.cs">
+      <DependentUpon>NewChoroba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewLekarz.xaml.cs">
+      <DependentUpon>NewLekarz.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pacjenci.cs">
       <DependentUpon>PrzychodniaDB.tt</DependentUpon>
     </Compile>
@@ -87,6 +93,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PrzychodniaDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="PrzychodniaProjectDBDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrzychodniaProjectDBDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>PrzychodniaDB.tt</DependentUpon>
@@ -112,6 +123,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NewChoroba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewLekarz.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -132,6 +151,44 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\App.datasource" />
+    <None Include="Properties\DataSources\Choroby.datasource" />
+    <None Include="Properties\DataSources\Lekarze.datasource" />
+    <None Include="Properties\DataSources\MainWindow.datasource" />
+    <None Include="Properties\DataSources\Pacjenci.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.ChorobyTableAdapter.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.Choroby_wizytyTableAdapter.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.LekarzeTableAdapter.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.PacjenciTableAdapter.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.TableAdapterManager+UpdateOrderOption.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.TableAdapterManager.datasource" />
+    <None Include="Properties\DataSources\Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.WizytyTableAdapter.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.ChorobyDataTable.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.ChorobyRow.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.ChorobyRowChangeEvent.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.ChorobyRowChangeEventHandler.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.Choroby_wizytyDataTable.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.Choroby_wizytyRow.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.Choroby_wizytyRowChangeEvent.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.Choroby_wizytyRowChangeEventHandler.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.LekarzeDataTable.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.LekarzeRow.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.LekarzeRowChangeEvent.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.LekarzeRowChangeEventHandler.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.PacjenciDataTable.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.PacjenciRow.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.PacjenciRowChangeEvent.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.PacjenciRowChangeEventHandler.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.WizytyDataTable.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.WizytyRow.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.WizytyRowChangeEvent.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBDataSet.WizytyRowChangeEventHandler.datasource" />
+    <None Include="Properties\DataSources\PrzychodniaProjectDBEntities.datasource" />
+    <None Include="Properties\DataSources\sp_helpdiagramdefinition_Result.datasource" />
+    <None Include="Properties\DataSources\sp_helpdiagrams_Result.datasource" />
+    <None Include="Properties\DataSources\sysdiagrams.datasource" />
+    <None Include="Properties\DataSources\Wizyty.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,6 +199,17 @@
     </EntityDeploy>
     <None Include="PrzychodniaDB.edmx.diagram">
       <DependentUpon>PrzychodniaDB.edmx</DependentUpon>
+    </None>
+    <None Include="PrzychodniaProjectDBDataSet.xsc">
+      <DependentUpon>PrzychodniaProjectDBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="PrzychodniaProjectDBDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PrzychodniaProjectDBDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="PrzychodniaProjectDBDataSet.xss">
+      <DependentUpon>PrzychodniaProjectDBDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

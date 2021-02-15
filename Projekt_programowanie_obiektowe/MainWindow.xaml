@@ -1,15 +1,31 @@
-﻿<Window x:Class="Projekt_programowanie_obiektowe.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_programowanie_obiektowe"
+        xmlns:PrzychodniaProjectDBDataSetTableAdapters="clr-namespace:Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters" x:Class="Projekt_programowanie_obiektowe.MainWindow"
         mc:Ignorable="d"
-        Title="Przychodnia" Height="450" Width="800">
+        Title="Przychodnia" Height="448.333" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <RoutedUICommand x:Key="resNowaChoroba" Text="_nowa_choroba_" />
+        <RoutedUICommand x:Key="btnDelChorobyCommand" Text="_usuń_choroba_" />
+        
+
+        <local:PrzychodniaProjectDBDataSet x:Key="przychodniaProjectDBDataSet"/>
+        <CollectionViewSource x:Key="chorobyViewSource" Source="{Binding Choroby, Source={StaticResource przychodniaProjectDBDataSet}}"/>
+        <CollectionViewSource x:Key="chorobyTableAdapterViewSource" d:DesignSource="{d:DesignInstance {x:Type PrzychodniaProjectDBDataSetTableAdapters:ChorobyTableAdapter}, CreateList=True}"/>
+        <CollectionViewSource x:Key="chorobyViewSource1" d:DesignSource="{d:DesignInstance {x:Type local:Choroby}, CreateList=True}"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource resNowaChoroba}" Executed="resNowaChorobaHandler"/>
+        <CommandBinding Command="{StaticResource btnDelChorobyCommand}" Executed="btnDelChorobyHandler"/>
+    </Window.CommandBindings>
+    
     <TabControl HorizontalAlignment="Left" Height="408" Margin="10,10,0,0" VerticalAlignment="Top" Width="767">
 
         <TabItem Header="Choroby">
-            <Grid x:Name="dbTab" Background="#FFE5E5E5" Margin="0,0,-0.4,0">
+            <Grid x:Name="dbTab" Background="#FFE5E5E5" Margin="0,0,-0.4,0" DataContext="{StaticResource chorobyViewSource}">
                 <DataGrid x:Name="grdChoroby" HorizontalAlignment="Left" Height="370" Margin="0,10,0,0" VerticalAlignment="Top" Width="400" Grid.ColumnSpan="3" MouseDoubleClick="grdChoroby_MouseDoubleClick" AutoGenerateColumns="False" SelectionChanged="grdChoroby_SelectionChanged_1" IsReadOnly="True" >
                     <DataGrid.ItemBindingGroup>
                         <BindingGroup/>
@@ -28,6 +44,28 @@
                 <Button x:Name="btnClearChoroba" Content="Wyczyść" HorizontalAlignment="Left" Margin="548,131,0,0" VerticalAlignment="Top" Width="75" Click="btnClearChoroba_Click" />
                 <Button x:Name="btnEditChoroba" Content="Popraw" HorizontalAlignment="Left" Margin="449,188,0,0" VerticalAlignment="Top" Width="75" Click="btnEditChoroba_Click" IsEnabled="False"/>
                 <Button x:Name="btnAddChoroba" Content="Dodaj" HorizontalAlignment="Left" Margin="651,131,0,0" VerticalAlignment="Top" Width="75" Click="btnAddChoroba_Click"/>
+                <DataGrid x:Name="chorobyDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource chorobyViewSource1}}" SelectedItem="{Binding selectedChoroby, Mode=TwoWay}" Margin="77,10,413,0" RowDetailsVisibilityMode="VisibleWhenSelected">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="nr_chorobyColumn" Binding="{Binding nr_choroby}" Header="nr choroby" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="opis_chorobyColumn" Binding="{Binding opis_choroby}" Header="opis choroby" Width="SizeToHeader"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Akcja"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnDelChorobyAction" Content="Usuń" Command="{StaticResource btnDelChorobyCommand}" />
+                                        <Button x:Name="btnEditChorobyAction" Content="Edytuj"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button x:Name="btnNowaChoroba" Content="Nowa Choroba" HorizontalAlignment="Left" Margin="524,257,0,0" VerticalAlignment="Top" Width="99" Height="26" Command="{StaticResource resNowaChoroba}"/>
             </Grid>
         </TabItem>
         <TabItem Header="Lekarze">
@@ -41,18 +79,68 @@
                         <DataGridTextColumn Header="Nr Lekarza" Binding="{Binding nr_lekarza}"/>
                         <DataGridTextColumn Binding="{Binding imie_lekarza}"  Header="Imie Lekarza"/>
                         <DataGridTextColumn Binding="{Binding nazwisko_lekarza}"  Header="Nazwisko Lekarza"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Akcja"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnDelLekarzeAction" Content="Usuń" Click="btnDeleteLekarze_Click"/>
+                                        <Button x:Name="btnEditLekarzeAction" Content="Edytuj"  Click="btnEditLekarze_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBox x:Name="txtNrLekarza" HorizontalAlignment="Left" Height="23" Margin="589,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                <TextBox x:Name="txtImieLekarza" HorizontalAlignment="Left" Height="23" Margin="589,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                <TextBox x:Name="txtNazwiskoLekarza" HorizontalAlignment="Left" Height="23" Margin="589,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                <TextBox x:Name="txtNrLekarza" HorizontalAlignment="Left" Height="23" Margin="589,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" MaxLength="10"/>
+                <TextBox x:Name="txtImieLekarza" HorizontalAlignment="Left" Height="23" Margin="589,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="txtImieLekarza_TextChanged"/>
+                <TextBox x:Name="txtNazwiskoLekarza" HorizontalAlignment="Left" Height="23" Margin="589,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="txtNazwiskoLekarza_TextChanged"/>
                 <Label Content="Nr Lekarza" HorizontalAlignment="Left" Margin="446,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.544,2.363"/>
                 <Label Content="Imie Lekarza" HorizontalAlignment="Left" Margin="446,69,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.612,2.209"/>
                 <Label Content="Nazwisko Lekarza" HorizontalAlignment="Left" Margin="446,117,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="btnDeleteLekarze" Content="Usuń" HorizontalAlignment="Left" Margin="446,196,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="btnDeleteLekarze" Content="Usuń" HorizontalAlignment="Left" Margin="446,196,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteLekarze_Click"/>
                 <Button x:Name="btnClearLekarze" Content="Wyczyść" HorizontalAlignment="Left" Margin="556,196,0,0" VerticalAlignment="Top" Width="75" Click="btnClearLekarze_Click"/>
-                <Button x:Name="btnAddLekarze" Content="Dodaj" HorizontalAlignment="Left" Margin="662,196,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button x:Name="btnEditLekarze" Content="Popraw" HorizontalAlignment="Left" Margin="446,248,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="btnAddLekarze" Content="Dodaj" HorizontalAlignment="Left" Margin="662,196,0,0" VerticalAlignment="Top" Width="75" Click="btnAddLekarze_Click"/>
+                <Button x:Name="btnEditLekarze" Content="Popraw" HorizontalAlignment="Left" Margin="446,248,0,0" VerticalAlignment="Top" Width="75" Click="btnEditLekarze_Click"/>
+                <Button x:Name="btnNowyLekarz" Content="Nowy Lekarz" HorizontalAlignment="Left" Margin="556,316,0,0" VerticalAlignment="Top" Width="89" Click="btnNowyLekarz_Click"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Pacjenci">
+            <Grid Background="#FFE5E5E5">
+                <DataGrid x:Name="grdPacjenci" HorizontalAlignment="Left" Height="370" VerticalAlignment="Top" Width="410" Margin="0,10,0,0" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.ItemBindingGroup>
+                        <BindingGroup/>
+                    </DataGrid.ItemBindingGroup>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Pesel Pacjenta" Binding="{Binding pesel_pacjenta}"/>
+                        <DataGridTextColumn Binding="{Binding imie_pacjenta}"  Header="Imie Pacjenta"/>
+                        <DataGridTextColumn Binding="{Binding nazwisko_pacjenta}"  Header="Nazwisko Pacjenta"/>
+                        <DataGridTextColumn Binding="{Binding ulica}"   Header="Adres: Ulica"/>
+                        <DataGridTextColumn Binding="{Binding kod_pocztowy}"  Header="Kod pocztowy"/>
+                        <DataGridTextColumn Binding="{Binding miejscowosc}"  Header="miejscowosc"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="591,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="591,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="591,126,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="591,176,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="591,227,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="591,276,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                <Label Content="Label" HorizontalAlignment="Left" Margin="474,28,0,0" VerticalAlignment="Top"/>
+                <Label Content="Label" HorizontalAlignment="Left" Margin="474,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.417,0.09"/>
+                <Label Content="Label" HorizontalAlignment="Left" Margin="474,123,0,0" VerticalAlignment="Top"/>
+                <Label Content="Label" HorizontalAlignment="Left" Margin="474,173,0,0" VerticalAlignment="Top"/>
+                <Label Content="Label" HorizontalAlignment="Left" Margin="474,224,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.68,2.086"/>
+                <Label Content="Label" HorizontalAlignment="Left" Margin="474,273,0,0" VerticalAlignment="Top"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="437,321,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="541,321,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="636,321,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="437,351,0,0" VerticalAlignment="Top" Width="75"/>
             </Grid>
         </TabItem>
         <TabItem Header="Umawianie Wizyty" MouseLeftButtonDown="TabItem_MouseLeftButtonDown">
@@ -62,6 +150,9 @@
                 <DataGrid x:Name="grdUmawianiePacjenci" HorizontalAlignment="Left" Height="305" Margin="239,0,0,0" VerticalAlignment="Top" Width="251" IsReadOnly="True" SelectionMode="Single"/>
                 <Button x:Name="btnZapiszWizyte" Content="Zapisz Wizyte" HorizontalAlignment="Left" Margin="61,320,0,0" VerticalAlignment="Top" Width="106" Height="34" Click="btnZapiszWizyte_Click"/>
             </Grid>
+        </TabItem>
+        <TabItem Header="Test">
+            <Grid Background="#FFE5E5E5"/>
         </TabItem>
     </TabControl>
 </Window>

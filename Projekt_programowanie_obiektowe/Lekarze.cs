@@ -26,5 +26,10 @@ namespace Projekt_programowanie_obiektowe
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wizyty> Wizyty { get; set; }
+
+        public static explicit operator Lekarze(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
