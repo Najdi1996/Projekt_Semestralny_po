@@ -76,6 +76,9 @@
     <Compile Include="NewLekarz.xaml.cs">
       <DependentUpon>NewLekarz.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewPacjent.xaml.cs">
+      <DependentUpon>NewPacjent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pacjenci.cs">
       <DependentUpon>PrzychodniaDB.tt</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewLekarz.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewPacjent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

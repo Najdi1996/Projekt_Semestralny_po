@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,41 +20,68 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class NewChoroba : Window
     {
-        CollectionViewSource chorobyViewSource;
-        PrzychodniaProjectDBEntities context = new PrzychodniaProjectDBEntities();
         public delegate void ChorobyEntityChanged();
         public event ChorobyEntityChanged chorobyEntityChanged;
         public NewChoroba()
         {
             InitializeComponent();
         }
-        private void NewChorobaHandler(object sender, RoutedEventArgs e)
+        public NewChoroba(Choroby choroba)
         {
-            var ch = chorobyViewSource.View;
+            InitializeComponent();
+            opis_chorobyTextBox.Text = choroba.opis_choroby;
+            nr_chorobyTextBox.Text = choroba.nr_choroby;
+            nr_chorobyTextBox.IsEnabled = false;
+        }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource chorobyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("chorobyViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // chorobyViewSource.Source = [generic data source]
+        }
+
+        private void BtnZapiszChoroba_Click(object sender, RoutedEventArgs e)
+        {
             Choroby choroba = new Choroby
             {
                 nr_choroby = nr_chorobyTextBox.Text,
                 opis_choroby = opis_chorobyTextBox.Text
             };
-            context.Choroby.Add(choroba);
-            context.SaveChanges();
-            MessageBox.Show("Informacja o chorobie została dodana do bazy");
-            if (chorobyEntityChanged != null)
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-                chorobyEntityChanged();
+                string msg;
+                if (nr_chorobyTextBox.IsEnabled)
+                {
+                    db.Choroby.Add(choroba);
+                    msg = "Informacja o chorobie dodana do bazy";
+                }
+                else
+                {
+                    db.Entry(choroba).State = EntityState.Modified;
+                    msg = "Informacja o chorobie została zmieniona w bazie";
+                }
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                {
+                    MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                    return;
+                }
+                MessageBox.Show(msg);
+
+
+                if (chorobyEntityChanged != null)
+                {
+                    chorobyEntityChanged();
+                }
+                this.Close();
+
             }
-            this.Close();
-           
-
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            chorobyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("chorobyViewSource")));
-            // Load data by setting the CollectionViewSource.Source property:
-            chorobyViewSource.Source = context.Choroby.Local;
-            //chorobyViewSource = DataContext;
         }
     }
 }

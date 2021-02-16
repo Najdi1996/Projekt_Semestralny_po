@@ -8,12 +8,9 @@
         Title="NewChoroba" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <RoutedUICommand x:Key="newChoroba" Text="nowaChoroba"/>
-        
+
         <CollectionViewSource x:Key="chorobyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Choroby}, CreateList=True}"/>
     </Window.Resources>
-    <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource newChoroba}" Executed="NewChorobaHandler"/>
-    </Window.CommandBindings>
     <Grid>
         <Grid x:Name="grid1" DataContext="{StaticResource chorobyViewSource}" HorizontalAlignment="Left" Margin="228,153,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -29,7 +26,6 @@
             <Label Content="opis choroby:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
             <TextBox x:Name="opis_chorobyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding opis_choroby, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>
-        <Button x:Name="BtnZapiszChoroba" Content="Zapisz" HorizontalAlignment="Left" Margin="228,255,0,0" VerticalAlignment="Top" Width="75" Command="{StaticResource newChoroba}" />
-
+        <Button x:Name="btnZapiszChoroby" Content="Zapisz" HorizontalAlignment="Left" Margin="297,280,0,0" VerticalAlignment="Top" Width="75" Click="BtnZapiszChoroba_Click"/>
     </Grid>
 </Window>
