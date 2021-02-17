@@ -97,17 +97,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PrzychodniaDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="PrzychodniaProjectDBDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PrzychodniaProjectDBDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>PrzychodniaDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>PrzychodniaDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>PrzychodniaDB.tt</DependentUpon>
     </Compile>
@@ -207,35 +196,24 @@
     <None Include="PrzychodniaDB.edmx.diagram">
       <DependentUpon>PrzychodniaDB.edmx</DependentUpon>
     </None>
-    <None Include="PrzychodniaProjectDBDataSet.xsc">
-      <DependentUpon>PrzychodniaProjectDBDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="PrzychodniaProjectDBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PrzychodniaProjectDBDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="PrzychodniaProjectDBDataSet.xss">
-      <DependentUpon>PrzychodniaProjectDBDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="PrzychodniaDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PrzychodniaDB.Context.cs</LastGenOutput>
       <DependentUpon>PrzychodniaDB.edmx</DependentUpon>
+      <LastGenOutput>PrzychodniaDB.Context.cs</LastGenOutput>
     </Content>
     <Content Include="PrzychodniaDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PrzychodniaDB.edmx</DependentUpon>
       <LastGenOutput>PrzychodniaDB.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

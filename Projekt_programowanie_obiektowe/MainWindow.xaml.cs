@@ -189,10 +189,21 @@ namespace Projekt_programowanie_obiektowe
         }
         private List<Wizyty> readWizyty()
         {
-            PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities();
-            return db.Wizyty.ToList();
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+                return db.Wizyty.ToList();
+            };
         }
        
+        private void populateWizyty()
+        {
+            grdWizyty.ItemsSource = this.readWizyty();
+            
+        }
+        private void grdWizyty_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            populateWizyty();
+        }
 
         private void populateUmawianie()
         {
@@ -200,7 +211,7 @@ namespace Projekt_programowanie_obiektowe
             grdUmawianieLekarzy.ItemsSource = this.readLekarze();
             grdUmawianiePacjenci.ItemsSource = this.readPacjenci();
         }
-
+        
         private void TabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             populateUmawianie();
@@ -218,6 +229,7 @@ namespace Projekt_programowanie_obiektowe
                 lekarz.Wizyty.Add(wizyty);
                 db.Pacjenci.Attach(pacjent);
                 pacjent.Wizyty.Add(wizyty);
+                wizyty.data_wizyty = WizytyDate.SelectedDate.Value;
                 foreach (Choroby chr in choroba)
                 {
                     db.Choroby.Attach(chr);
@@ -295,7 +307,9 @@ namespace Projekt_programowanie_obiektowe
             // wizytyViewSource.Source = [generic data source]
         }
 
-        
+       
+
+
 
 
         /* private void Window_Loaded(object sender, RoutedEventArgs e)

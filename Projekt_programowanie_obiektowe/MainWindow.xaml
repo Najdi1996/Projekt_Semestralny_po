@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_programowanie_obiektowe"
-        xmlns:PrzychodniaProjectDBDataSetTableAdapters="clr-namespace:Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters" x:Class="Projekt_programowanie_obiektowe.MainWindow"
+        x:Class="Projekt_programowanie_obiektowe.MainWindow"
         mc:Ignorable="d"
+        
         Title="Przychodnia" Height="448.333" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
 
-        <local:PrzychodniaProjectDBDataSet x:Key="przychodniaProjectDBDataSet"/>
+       
         <CollectionViewSource x:Key="wizytyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Wizyty}, CreateList=True}"/>
 
     </Window.Resources>
@@ -123,11 +124,19 @@
                 <DataGrid x:Name="grdUmawianieLekarzy" HorizontalAlignment="Left" Height="305" Margin="494,0,0,0" VerticalAlignment="Top" Width="251" IsReadOnly="True" SelectionMode="Single"/>
                 <DataGrid x:Name="grdUmawianiePacjenci" HorizontalAlignment="Left" Height="305" Margin="239,0,0,0" VerticalAlignment="Top" Width="251" IsReadOnly="True" SelectionMode="Single"/>
                 <Button x:Name="btnZapiszWizyte" Content="Zapisz Wizyte" HorizontalAlignment="Left" Margin="61,320,0,0" VerticalAlignment="Top" Width="106" Height="34" Click="btnZapiszWizyte_Click"/>
+                <DatePicker x:Name="WizytyDate" HorizontalAlignment="Left" Margin="208,325,0,0" VerticalAlignment="Top" Height="29" Width="133"/>
             </Grid>
         </TabItem>
         <TabItem Header="Wizyty">
-            <Grid Background="#FFE5E5E5" DataContext="{StaticResource wizytyViewSource}">
-                <DataGrid HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0"/>
+            <Grid Background="#FFE5E5E5">
+                <DataGrid x:Name="grdWizyty" HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0" MouseLeftButtonDown="grdWizyty_MouseLeftButtonDown" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Lekarz" Binding="{Binding Lekarze.nazwisko_lekarza}"/>
+                        <DataGridTextColumn Binding="{Binding nr_wizyty}"  Header="Nr Wizyty"/>
+                        <DataGridTextColumn Binding="{Binding data_wizyty}"  Header="Data Wizyty"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
             </Grid>
         </TabItem>
     </TabControl>

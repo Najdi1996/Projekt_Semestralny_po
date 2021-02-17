@@ -21,7 +21,7 @@ namespace Projekt_programowanie_obiektowe
         }
     
         public long nr_wizyty { get; set; }
-        public int data_wizyty { get; set; }
+        public System.DateTime data_wizyty { get; set; }
         public string pesel_pacjenta { get; set; }
         public int nr_lekarza { get; set; }
     
