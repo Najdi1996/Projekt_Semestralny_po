@@ -191,10 +191,38 @@ namespace Projekt_programowanie_obiektowe
         {
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-                return db.Wizyty.ToList();
+                //db.Wizyty.Load();
+                return db.Wizyty.Include(ll => ll.Lekarze).Include(pp => pp.Pacjenci).ToList();
             };
         }
-       
+        private void btnDeleteWizyty_Click(object sender, RoutedEventArgs e)
+        {
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+
+                Wizyty wizyta = (Wizyty)grdWizyty.CurrentItem;
+
+                if (wizyta != null)
+                {
+                    try
+                    {
+                        db.Entry(wizyta).State = EntityState.Deleted;
+                        db.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                    {
+                        MessageBox.Show("Wystąpił problem z usunięciem z bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                        return;
+                    }
+                }
+
+                populateWizyty();
+                MessageBox.Show("Informacja o wizycie została usunięta z bazy");
+
+            }
+        }
+
+
         private void populateWizyty()
         {
             grdWizyty.ItemsSource = this.readWizyty();

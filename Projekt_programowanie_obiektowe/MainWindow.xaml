@@ -132,8 +132,23 @@
                 <DataGrid x:Name="grdWizyty" HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0" MouseLeftButtonDown="grdWizyty_MouseLeftButtonDown" AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Lekarz" Binding="{Binding Lekarze.nazwisko_lekarza}"/>
+                        <DataGridTextColumn Header="Pacjent" Binding="{Binding Pacjenci.nazwisko_pacjenta}"/>
                         <DataGridTextColumn Binding="{Binding nr_wizyty}"  Header="Nr Wizyty"/>
-                        <DataGridTextColumn Binding="{Binding data_wizyty}"  Header="Data Wizyty"/>
+                        <DataGridTextColumn Binding="{Binding data_wizyty, StringFormat='yyyy-MM-dd'}"  Header="Data Wizyty"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Akcja"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnDelWizytyAction" Content="Usuń" Click="btnDeleteWizyty_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 
