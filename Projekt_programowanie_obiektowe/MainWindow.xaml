@@ -25,7 +25,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="grdChoroby" HorizontalAlignment="Left" Height="370" Margin="0,10,-0.4,0" VerticalAlignment="Top" Width="762" AutoGenerateColumns="False"  IsReadOnly="True" >
+                <DataGrid x:Name="grdChoroby" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="370" Margin="0,10,-0.4,0" VerticalAlignment="Top" Width="762" AutoGenerateColumns="False"  IsReadOnly="True" >
                     <DataGrid.ItemBindingGroup>
                         <BindingGroup/>
                     </DataGrid.ItemBindingGroup>

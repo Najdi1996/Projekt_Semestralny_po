@@ -21,28 +21,14 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class MainWindow : Window
     {
-       // Choroby chorobaEdit;
-       // Lekarze lekarzEdit;
-        //PrzychodniaProjectDBEntities context = new PrzychodniaProjectDBEntities();
-       // CollectionViewSource chorobyViewSource1;
-       // private Choroby _selectedChoroby;
-       /* public Choroby selectedChoroby
-        {
-            get { return _selectedChoroby; }
-            set { _selectedChoroby = value;
-               // OnPropertyChanged("selectedChoroby");
-            }
-            
-        }*/
-
+       
         public MainWindow()
         {
             InitializeComponent();
             populateChorobyGrid();
             populateLekarzeGrid();
             populatePacjenciGrid();
-            
-            DataContext = this;
+           
         }
         private List<Choroby> readChoroby()
         {
@@ -58,10 +44,10 @@ namespace Projekt_programowanie_obiektowe
 
         private void btnEditChoroba_Click(object sender, RoutedEventArgs e)
         {
-            NewChoroba nc = new NewChoroba(grdChoroby.SelectedItem as Choroby);
-            nc.Activate();
-            nc.Show();
-            nc.chorobyEntityChanged += ChorobyEntityChanged_Handler;
+            NewChoroba nce = new NewChoroba(grdChoroby.SelectedItem as Choroby);
+            nce.Activate();
+            nce.ShowDialog();
+            nce.chorobyEntityChanged += ChorobyEntityChanged_Handler;
         }
 
         private void btnDeleteChoroba_Click(object sender, RoutedEventArgs e)
@@ -136,10 +122,10 @@ namespace Projekt_programowanie_obiektowe
         }
         private void btnEditLekarze_Click(object sender, RoutedEventArgs e)
         {
-            NewLekarz nl = new NewLekarz(grdLekarze.SelectedItem as Lekarze);
-            nl.Activate();
-            nl.Show();
-            nl.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
+            NewLekarz nle = new NewLekarz(grdLekarze.SelectedItem as Lekarze);
+            nle.Activate();
+            nle.ShowDialog();
+            nle.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
         }
 
         private List<Pacjenci> readPacjenci()
@@ -182,10 +168,10 @@ namespace Projekt_programowanie_obiektowe
        }
         private void btnEditPacjenci_Click(object sender, RoutedEventArgs e)
         {
-            NewPacjent np = new NewPacjent(grdPacjenci.SelectedItem as Pacjenci);
-            np.Activate();
-            np.Show();
-            np.pacjenciEntityChanged += PacjenciEntityChanged_Handler;
+            NewPacjent npe = new NewPacjent(grdPacjenci.SelectedItem as Pacjenci);
+            npe.Activate();
+            npe.ShowDialog();
+            npe.pacjenciEntityChanged += PacjenciEntityChanged_Handler;
         }
         private List<Wizyty> readWizyty()
         {
@@ -292,7 +278,7 @@ namespace Projekt_programowanie_obiektowe
         {
             NewChoroba nc = new NewChoroba();
             nc.Activate();
-            nc.Show();
+            nc.ShowDialog();
             nc.chorobyEntityChanged += ChorobyEntityChanged_Handler;
         }
 
@@ -307,7 +293,7 @@ namespace Projekt_programowanie_obiektowe
         {
             NewLekarz nl = new NewLekarz();
             nl.Activate();
-            nl.Show();
+            nl.ShowDialog();
             nl.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
             
         }
@@ -321,7 +307,7 @@ namespace Projekt_programowanie_obiektowe
         {
             NewPacjent np = new NewPacjent();
             np.Activate();
-            np.Show();
+            np.ShowDialog();
             np.pacjenciEntityChanged += PacjenciEntityChanged_Handler;
 
         }
