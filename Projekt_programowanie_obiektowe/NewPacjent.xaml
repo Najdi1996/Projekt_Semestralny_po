@@ -24,18 +24,18 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Content="pesel pacjenta:" Grid.Column="0" HorizontalAlignment="Left" Margin="-7,1,0,1.8" VerticalAlignment="Center" Height="26" Width="88"/>
-            <TextBox x:Name="pesel_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,6,-3.4,29.4" Text="{Binding pesel_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.RowSpan="2"/>
+            <TextBox x:Name="pesel_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,6,-3.4,29.4" Text="{Binding pesel_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.RowSpan="2" Control.TabIndex="1"/>
             <Label Content="imie pacjenta:" Grid.Column="0" HorizontalAlignment="Left" Margin="-8,3.2,0,0.4" Grid.Row="1" VerticalAlignment="Center" Height="26" Width="83"/>
-            <TextBox x:Name="imie_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,5.2,-3.4,1.4" Grid.Row="1" Text="{Binding imie_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="imie_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,5.2,-3.4,1.4" Grid.Row="1" Text="{Binding imie_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Control.TabIndex="2"/>
             <Label Content="nazwisko pacjenta:" Grid.Column="0" HorizontalAlignment="Left" Margin="-8,4.6,0,0.6" Grid.Row="2" VerticalAlignment="Center" Height="26" Width="109"/>
-            <TextBox x:Name="nazwisko_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,4.6,-3.4,3.6" Grid.Row="2" Text="{Binding nazwisko_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="nazwisko_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,4.6,-3.4,3.6" Grid.Row="2" Text="{Binding nazwisko_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Control.TabIndex="3"/>
 
             <Label Content="kod pocztowy:" Grid.Column="0" HorizontalAlignment="Left" Margin="-7,0.4,0,4" Grid.Row="4" VerticalAlignment="Center" Height="26" Width="86"/>
-            <TextBox x:Name="kod_pocztowyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,7.4,-3.4,0" Grid.Row="4" Text="{Binding kod_pocztowy, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="kod_pocztowyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,7.4,-3.4,0" Grid.Row="4" Text="{Binding kod_pocztowy, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Control.TabIndex="5"/>
             <Label Content="miejscowosc:" Grid.Column="0" HorizontalAlignment="Left" Margin="-8,1,0,5" Grid.Row="5" VerticalAlignment="Center" Height="26" Width="78"/>
-            <TextBox x:Name="miejscowoscTextBox" HorizontalAlignment="Left" Height="23" Margin="9.8,4,-3.4,5" Grid.Row="5" Text="{Binding miejscowosc, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+            <TextBox x:Name="miejscowoscTextBox" HorizontalAlignment="Left" Height="23" Margin="9.8,4,-3.4,5" Grid.Row="5" Text="{Binding miejscowosc, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.Column="1" Control.TabIndex="6"/>
             <Label Content="ulica:" Grid.Column="0" HorizontalAlignment="Left" Margin="-7,2.4,0,30" Grid.Row="3" Grid.RowSpan="2" Width="37"/>
-            <TextBox x:Name="ulicaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,6.4,-3.4,29" Grid.Row="3" Text="{Binding ulica, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.RowSpan="2"/>
+            <TextBox x:Name="ulicaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="9.8,6.4,-3.4,29" Grid.Row="3" Text="{Binding ulica, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.RowSpan="2" Control.TabIndex="4"/>
         </Grid>
         <Button x:Name="btnZapiszPacjenci" Content="Zapisz" HorizontalAlignment="Left" Margin="297,280,0,0" VerticalAlignment="Top" Width="91" Click="btnZapiszPacjenci_Click" Height="26"/>
 

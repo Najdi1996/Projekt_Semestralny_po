@@ -305,6 +305,7 @@ namespace Projekt_programowanie_obiektowe
 
         private void btnNowyPacjent_Click(object sender, RoutedEventArgs e)
         {
+            
             NewPacjent np = new NewPacjent();
             np.Activate();
             np.ShowDialog();
