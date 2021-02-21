@@ -20,22 +20,49 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class NewWizyta : Window
     {
+        List<Lekarze> lekarze;
+        List<Choroby> choroby;
+        List<Pacjenci> pacjenci;
+        Wizyty wizyta;
+
+        public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby , List<Pacjenci> pacjenci)
+        {
+            InitializeComponent();
+            PrepareWindowData(lekarze, choroby,  pacjenci);
+
+        }
         public delegate void WizytyEntityChanged();
         public event WizytyEntityChanged wizytyEntityChanged;
         public NewWizyta()
         {
             InitializeComponent();
         }
-        public NewWizyta(Wizyty wizyta)
+        public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci , Wizyty wizyta)
         {
             InitializeComponent();
+            PrepareWindowData(lekarze, choroby, pacjenci);
+            this.wizyta = wizyta;
+            nr_lekarzaComboBox.SelectedItem = lekarze.Where(ll => ll.nr_lekarza == wizyta.nr_lekarza).First();
+            pesel_pacjentaComboBox.SelectedItem = pacjenci.Where(pp => pp.pesel_pacjenta == wizyta.pesel_pacjenta).First();
+            //grdChorobyAddWizyty.SelectedItems = choroby.Where(chch => wizyta.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby));
+            //Lekarze qq = lekarze.Where(ll => ll.nr_lekarza == wizyta.nr_lekarza).First();
+            /*
             data_wizytyDatePicker.SelectedDate = wizyta.data_wizyty;
             nr_lekarzaTextBox.Text = wizyta.nr_lekarza.ToString();
             nr_wizytyTextBox.Text = wizyta.nr_wizyty.ToString();
             pesel_pacjentaTextBox.Text = wizyta.pesel_pacjenta;
             pesel_pacjentaTextBox.IsEnabled = false;
+            */
         }
-
+        private void PrepareWindowData(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci)
+        {
+            this.lekarze = lekarze;
+            this.choroby = choroby;
+            this.pacjenci = pacjenci;
+            nr_lekarzaComboBox.ItemsSource = lekarze;
+            pesel_pacjentaComboBox.ItemsSource = pacjenci;
+            grdChorobyAddWizyty.ItemsSource = choroby;
+        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -48,17 +75,25 @@ namespace Projekt_programowanie_obiektowe
         {
             Wizyty wizyta = new Wizyty
             {
+                
                 data_wizyty = data_wizytyDatePicker.DisplayDate,
-                nr_lekarza = int.Parse(nr_lekarzaTextBox.Text),
-                nr_wizyty = int.Parse(nr_wizytyTextBox.Text),
-                pesel_pacjenta = pesel_pacjentaTextBox.Text
-               
-
-            };
+                nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza,
+                pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta
+                 
+        };
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
+
                 string msg;
-                if (pesel_pacjentaTextBox.IsEnabled)
+                foreach (Choroby chr in grdChorobyAddWizyty.SelectedItems)
+                {
+                    db.Choroby.Attach(chr);
+                    chr.Wizyty.Add(wizyta);
+                }
+
+                db.Wizyty.Add(wizyta);
+
+                if (pesel_pacjentaComboBox != null && nr_lekarzaComboBox != null && data_wizytyDatePicker != null)
                 {
                     db.Wizyty.Add(wizyta);
                     msg = "Informacja o wizycie dodana do bazy";
@@ -88,6 +123,8 @@ namespace Projekt_programowanie_obiektowe
 
             }
         }
+
+        
     }
 }
 

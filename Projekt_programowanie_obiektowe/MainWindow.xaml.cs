@@ -208,7 +208,7 @@ namespace Projekt_programowanie_obiektowe
         }
         private void btnEditWizyty_Click(object sender, RoutedEventArgs e)
         {
-            NewWizyta nwe = new NewWizyta(grdWizyty.SelectedItem as Wizyty);
+            NewWizyta nwe = new NewWizyta(this.readLekarze(), this.readChoroby(), this.readPacjenci(), grdWizyty.SelectedItem as Wizyty );
             nwe.Activate();
             nwe.ShowDialog();
             nwe.wizytyEntityChanged += WizytyEntityChanged_Handler;
@@ -325,7 +325,7 @@ namespace Projekt_programowanie_obiektowe
 
         private void btnNowaWizyta_Click(object sender, RoutedEventArgs e)
         {
-            NewWizyta nw = new NewWizyta();
+            NewWizyta nw = new NewWizyta(this.readLekarze(), this.readChoroby(), this.readPacjenci());
             nw.Activate();
             nw.ShowDialog();
             nw.wizytyEntityChanged += WizytyEntityChanged_Handler;

@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:Projekt_programowanie_obiektowe"
         mc:Ignorable="d"
         Title="Przychodnia Nowa Wizyta
-        " Height="308.468" Width="388.71" Loaded="Window_Loaded">
+        " Height="308.468" Width="678.778" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="wizytyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Wizyty}, CreateList=True}"/>
     </Window.Resources>
     <Grid Background="Blue">
-        <Grid x:Name="grid1" DataContext="{StaticResource wizytyViewSource}" HorizontalAlignment="Left" Margin="76,45,0,0" VerticalAlignment="Top">
+        <Grid x:Name="grid1" DataContext="{StaticResource wizytyViewSource}" HorizontalAlignment="Left" Margin="34,48,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -24,14 +24,39 @@
             </Grid.RowDefinitions>
             <Label Content="data wizyty:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
             <DatePicker x:Name="data_wizytyDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding data_wizyty, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-            <Label Content="nr lekarza:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-            <TextBox x:Name="nr_lekarzaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding nr_lekarza, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            <Label Content="nr wizyty:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <TextBox x:Name="nr_wizytyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding nr_wizyty, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Imie i nazwisko lekarza:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
             <Label Content="pesel pacjenta:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-            <TextBox x:Name="pesel_pacjentaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding pesel_pacjenta, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <ComboBox x:Name="nr_lekarzaComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="2.6,6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding imie_lekarza}"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding nazwisko_lekarza}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox x:Name="pesel_pacjentaComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="2.8,6,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding pesel_pacjenta}"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding imie_pacjenta}"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding nazwisko_pacjenta}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </Grid>
-        <Button Content="Zapisz" Background="White" HorizontalAlignment="Left" Margin="113,197,0,0" VerticalAlignment="Top" Width="126" Height="30" Click="btnZapiszWizyty_Click"/>
-
+        <Button Content="Zapisz" Background="White" HorizontalAlignment="Left" Margin="68,176,0,0" VerticalAlignment="Top" Width="126" Height="30" Click="btnZapiszWizyty_Click"/>
+        <DataGrid x:Name="grdChorobyAddWizyty" HorizontalAlignment="Left" Height="279" Margin="325,0,0,0" VerticalAlignment="Top" Width="347" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nr Choroby" Binding="{Binding nr_choroby}"/>
+                <DataGridTextColumn Header="Opis Choroby" Binding="{Binding opis_choroby}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

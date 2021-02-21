@@ -19,7 +19,31 @@
     </Window.CommandBindings>
 
     <TabControl HorizontalAlignment="Left" Height="408" Margin="10,10,0,0" VerticalAlignment="Top" Width="767" Background="Blue">
-
+        <TabControl.Resources>
+            <Style TargetType="TabItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Grid Name="Panel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Panel" Property="Background" Value="red" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="Panel" Property="Background" Value="White" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TabControl.Resources>
         <TabItem Header="Choroby" FontWeight="Black" Width="150" Height="35">
             <Grid x:Name="dbTab" Background="Blue"  Margin="0,0,-0.4,0">
                 <Grid.ColumnDefinitions>
@@ -131,8 +155,10 @@
             <Grid Background="Blue">
                 <DataGrid x:Name="grdWizyty" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="380" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0" MouseLeftButtonDown="grdWizyty_MouseLeftButtonDown" AutoGenerateColumns="False" IsReadOnly="True" Background="Blue">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Lekarz" Binding="{Binding Lekarze.nazwisko_lekarza}"/>
-                        <DataGridTextColumn Header="Pacjent" Binding="{Binding Pacjenci.nazwisko_pacjenta}"/>
+                        <DataGridTextColumn Header="Imię Lekarza" Binding="{Binding Lekarze.imie_lekarza}"/>
+                        <DataGridTextColumn Header="Nazwisko Lekarza" Binding="{Binding Lekarze.nazwisko_lekarza}"/>
+                        <DataGridTextColumn Header="Imię Pacjenta" Binding="{Binding Pacjenci.imie_pacjenta}"/>
+                        <DataGridTextColumn Header="Nazwisko Pacjenta" Binding="{Binding Pacjenci.nazwisko_pacjenta}"/>
                         <DataGridTextColumn Binding="{Binding nr_wizyty}"  Header="Nr Wizyty"/>
                         <DataGridTextColumn Binding="{Binding data_wizyty, StringFormat='yyyy-MM-dd'}"  Header="Data Wizyty"/>
                         <DataGridTemplateColumn>
