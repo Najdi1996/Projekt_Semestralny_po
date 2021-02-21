@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_programowanie_obiektowe"
         mc:Ignorable="d"
-        Title="NewChoroba" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Przychodnia Nowa Choroba" Height="283.386" Width="364.241" Loaded="Window_Loaded">
     <Window.Resources>
         <RoutedUICommand x:Key="newChoroba" Text="nowaChoroba"/>
 
         <CollectionViewSource x:Key="chorobyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Choroby}, CreateList=True}"/>
     </Window.Resources>
-    <Grid>
-        <Grid x:Name="grid1" DataContext="{StaticResource chorobyViewSource}" HorizontalAlignment="Left" Margin="228,153,0,0" VerticalAlignment="Top">
+    <Grid Background="Blue">
+        <Grid x:Name="grid1" DataContext="{StaticResource chorobyViewSource}" HorizontalAlignment="Left" Margin="71,76,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -21,11 +21,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="nr choroby:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <Label Content="nr choroby:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
             <TextBox x:Name="nr_chorobyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding nr_choroby, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            <Label Content="opis choroby:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label Content="opis choroby:" Foreground="White" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
             <TextBox x:Name="opis_chorobyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding opis_choroby, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>
-        <Button x:Name="btnZapiszChoroby" Content="Zapisz" HorizontalAlignment="Left" Margin="297,280,0,0" VerticalAlignment="Top" Width="75" Click="BtnZapiszChoroba_Click"/>
+        <Button x:Name="btnZapiszChoroby" Background="White" Content="Zapisz" HorizontalAlignment="Left" Margin="112,168,0,0" VerticalAlignment="Top" Width="75" Click="BtnZapiszChoroba_Click"/>
     </Grid>
 </Window>

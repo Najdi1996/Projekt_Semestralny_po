@@ -28,6 +28,7 @@ namespace Projekt_programowanie_obiektowe
             populateChorobyGrid();
             populateLekarzeGrid();
             populatePacjenciGrid();
+            populateWizyty();
            
         }
         private List<Choroby> readChoroby()
@@ -105,7 +106,6 @@ namespace Projekt_programowanie_obiektowe
                     try
                     {
                         db.Entry(lekarz).State = EntityState.Deleted;
-                        //db.Lekarze.Remove(lekarz);
                         db.SaveChanges();
                     }
                     catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
@@ -177,7 +177,6 @@ namespace Projekt_programowanie_obiektowe
         {
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-                //db.Wizyty.Load();
                 return db.Wizyty.Include(ll => ll.Lekarze).Include(pp => pp.Pacjenci).ToList();
             };
         }
@@ -206,6 +205,13 @@ namespace Projekt_programowanie_obiektowe
                 MessageBox.Show("Informacja o wizycie została usunięta z bazy");
 
             }
+        }
+        private void btnEditWizyty_Click(object sender, RoutedEventArgs e)
+        {
+            NewWizyta nwe = new NewWizyta(grdWizyty.SelectedItem as Wizyty);
+            nwe.Activate();
+            nwe.ShowDialog();
+            nwe.wizytyEntityChanged += WizytyEntityChanged_Handler;
         }
 
 
@@ -312,7 +318,18 @@ namespace Projekt_programowanie_obiektowe
             np.pacjenciEntityChanged += PacjenciEntityChanged_Handler;
 
         }
+        private void WizytyEntityChanged_Handler()
+        {
+            populateWizyty();
+        }
 
+        private void btnNowaWizyta_Click(object sender, RoutedEventArgs e)
+        {
+            NewWizyta nw = new NewWizyta();
+            nw.Activate();
+            nw.ShowDialog();
+            nw.wizytyEntityChanged += WizytyEntityChanged_Handler;
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -321,37 +338,5 @@ namespace Projekt_programowanie_obiektowe
             // Load data by setting the CollectionViewSource.Source property:
             // wizytyViewSource.Source = [generic data source]
         }
-
-       
-
-
-
-
-        /* private void Window_Loaded(object sender, RoutedEventArgs e)
-         {
-             chorobyViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("chorobyViewSource1")));
-             //context. += new EventHandler(context_SaveChanges);
-             // Load data by setting the CollectionViewSource.Source property:
-             // chorobyViewSource1.Source = [generic data source]
-
-             context.Choroby.Load();
-             chorobyViewSource1.Source = context.Choroby.Local;
-
-         }*/
-
-
-
-
-        /*private void Window_Loaded(object sender, RoutedEventArgs e)
-         {
-
-             Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSet przychodniaProjectDBDataSet = ((Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSet)(this.FindResource("przychodniaProjectDBDataSet")));
-             // Load data into the table Choroby. You can modify this code as needed.chorobyViewSource
-             Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.ChorobyTableAdapter przychodniaProjectDBDataSetChorobyTableAdapter = new Projekt_programowanie_obiektowe.PrzychodniaProjectDBDataSetTableAdapters.ChorobyTableAdapter();
-             przychodniaProjectDBDataSetChorobyTableAdapter.Fill(przychodniaProjectDBDataSet.Choroby);
-             System.Windows.Data.CollectionViewSource chorobyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("chorobyViewSource")));
-             chorobyViewSource.View.MoveCurrentToFirst();
-         }
-        */
     }
 }

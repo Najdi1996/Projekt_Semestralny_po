@@ -20,7 +20,7 @@
 
     <TabControl HorizontalAlignment="Left" Height="408" Margin="10,10,0,0" VerticalAlignment="Top" Width="767" Background="Blue">
 
-        <TabItem Header="Choroby">
+        <TabItem Header="Choroby" FontWeight="Black" Width="150" Height="35">
             <Grid x:Name="dbTab" Background="Blue"  Margin="0,0,-0.4,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -53,7 +53,7 @@
                 <Button x:Name="btnNowaChoroba" Content="Nowa Choroba" HorizontalAlignment="Left" Margin="229,266,0,0" VerticalAlignment="Top" Width="215" Height="31"  Click="btnNowaChoroba_Click" Background="White"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Lekarze">
+        <TabItem Header="Lekarze" FontWeight="Black" Width="150" Height="35">
             <Grid Background="Blue">
                 <DataGrid x:Name="grdLekarze" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="370" Margin="0,10,-0.4,0" VerticalAlignment="Top" Width="762" AutoGenerateColumns="False"  IsReadOnly="True" Background="Blue">
                     <DataGrid.ItemBindingGroup>
@@ -84,7 +84,7 @@
                 <Button x:Name="btnNowyLekarz" Content="Nowy Lekarz" HorizontalAlignment="Left" Margin="245,273,0,0" VerticalAlignment="Top" Width="203" Click="btnNowyLekarz_Click" Height="36" Background="White"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Pacjenci">
+        <TabItem Header="Pacjenci" FontWeight="Black" Width="150" Height="35">
             <Grid Background="Blue">
                 <DataGrid x:Name="grdPacjenci" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="370" VerticalAlignment="Top" Width="762" Margin="0,10,-0.4,0" AutoGenerateColumns="False" IsReadOnly="True" Background="Blue">
                     <DataGrid.ItemBindingGroup>
@@ -118,7 +118,7 @@
                 <Button x:Name="btnNowyPacjent" Content="Nowy Pacjent" HorizontalAlignment="Left" Margin="225,273,0,0" VerticalAlignment="Top" Width="223" Click="btnNowyPacjent_Click" Height="36" Background="White"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Umawianie Wizyty" MouseLeftButtonDown="TabItem_MouseLeftButtonDown">
+        <TabItem Header="Umawianie Wizyty" MouseLeftButtonDown="TabItem_MouseLeftButtonDown" FontWeight="Black" Width="150" Height="35">
             <Grid Background="Blue">
                 <DataGrid x:Name="grdUmawianieChoroby" HorizontalAlignment="Left" Height="305" VerticalAlignment="Top" Width="251" IsReadOnly="True" Background="Blue"/>
                 <DataGrid x:Name="grdUmawianieLekarzy" HorizontalAlignment="Left" Height="305" Margin="494,0,0,0" VerticalAlignment="Top" Width="251" IsReadOnly="True" SelectionMode="Single" Background="Blue"/>
@@ -127,7 +127,7 @@
                 <DatePicker x:Name="WizytyDate" HorizontalAlignment="Left" Margin="208,325,0,0" VerticalAlignment="Top" Height="29" Width="133" Background="White"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Wizyty">
+        <TabItem Header="Wizyty" FontWeight="Black" Width="150" Height="35">
             <Grid Background="Blue">
                 <DataGrid x:Name="grdWizyty" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="380" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0" MouseLeftButtonDown="grdWizyty_MouseLeftButtonDown" AutoGenerateColumns="False" IsReadOnly="True" Background="Blue">
                     <DataGrid.Columns>
@@ -144,13 +144,15 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnDelWizytyAction" Content="Usuń" Click="btnDeleteWizyty_Click" Background="White" Margin="55,0,0,0"/>
+                                        <Button x:Name="btnDelWizytyAction" Content="Usuń" Click="btnDeleteWizyty_Click" Background="White" Margin="35,0,5,0"/>
+                                        <Button x:Name="btnEditWizytyAction" Content="Edytuj" Click="btnEditWizyty_Click" Background="White" Margin="5,0,55,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <Button x:Name="btnNowaWizyta" Content="Nowa Wizyta" HorizontalAlignment="Left" Margin="172,245,0,0" VerticalAlignment="Top" Width="176" Height="41" Click="btnNowaWizyta_Click"/>
 
             </Grid>
         </TabItem>
