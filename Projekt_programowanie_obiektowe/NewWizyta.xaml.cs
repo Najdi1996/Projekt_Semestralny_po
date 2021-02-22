@@ -37,14 +37,16 @@ namespace Projekt_programowanie_obiektowe
         {
             InitializeComponent();
         }
-        public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci , Wizyty wizyta)
+        public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci , Wizyty wizyta , List<Choroby> chorobyselected)
         {
             InitializeComponent();
             PrepareWindowData(lekarze, choroby, pacjenci);
             this.wizyta = wizyta;
             nr_lekarzaComboBox.SelectedItem = lekarze.Where(ll => ll.nr_lekarza == wizyta.nr_lekarza).First();
             pesel_pacjentaComboBox.SelectedItem = pacjenci.Where(pp => pp.pesel_pacjenta == wizyta.pesel_pacjenta).First();
-            //grdChorobyAddWizyty.SelectedItems = choroby.Where(chch => wizyta.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby));
+            //List<Choroby> chorobyselected = choroby.Where(chch => wizyta.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby)).ToList();
+            chorobyselected.ForEach(chrf => grdChorobyAddWizyty.SelectedItems.Add(chrf));
+            //grdChorobyAddWizyty.SelectedItems.Add(chorobyselected);
             //Lekarze qq = lekarze.Where(ll => ll.nr_lekarza == wizyta.nr_lekarza).First();
             /*
             data_wizytyDatePicker.SelectedDate = wizyta.data_wizyty;

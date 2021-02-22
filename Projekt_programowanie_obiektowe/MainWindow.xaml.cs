@@ -177,7 +177,7 @@ namespace Projekt_programowanie_obiektowe
         {
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-                return db.Wizyty.Include(ll => ll.Lekarze).Include(pp => pp.Pacjenci).ToList();
+                return db.Wizyty.Include(ll => ll.Lekarze).Include(pp => pp.Pacjenci).Include(chr => chr.Choroby).ToList();
             };
         }
         private void btnDeleteWizyty_Click(object sender, RoutedEventArgs e)
@@ -208,10 +208,24 @@ namespace Projekt_programowanie_obiektowe
         }
         private void btnEditWizyty_Click(object sender, RoutedEventArgs e)
         {
-            NewWizyta nwe = new NewWizyta(this.readLekarze(), this.readChoroby(), this.readPacjenci(), grdWizyty.SelectedItem as Wizyty );
-            nwe.Activate();
-            nwe.ShowDialog();
-            nwe.wizytyEntityChanged += WizytyEntityChanged_Handler;
+            using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
+            {
+                List<Wizyty> wiz = db.Wizyty.ToList();
+                List<Choroby> chr = db.Choroby.ToList();
+                List<Pacjenci> pac = db.Pacjenci.ToList();
+                List<Lekarze> lek = db.Lekarze.ToList();
+                Wizyty wiztoselect = grdWizyty.SelectedItem as Wizyty;
+                //db.Wizyty.Attach(wiztoselect);
+                //db.Entry(wiztoselect).State = EntityState.Unchanged;
+                //wiztoselect.Choroby.Include(w => w.Choroby);
+                //db.Entry(wiztoselect).Collection(w => w.Choroby).Load();
+                List<Choroby> chorobyselected = chr.Where(chch => wiztoselect.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby)).ToList();
+            
+                NewWizyta nwe = new NewWizyta(lek , chr, pac, wiztoselect , chorobyselected);
+                nwe.Activate();
+                nwe.ShowDialog();
+                nwe.wizytyEntityChanged += WizytyEntityChanged_Handler;
+            };
         }
 
 

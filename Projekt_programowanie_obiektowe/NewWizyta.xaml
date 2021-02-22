@@ -53,6 +53,10 @@
         </Grid>
         <Button Content="Zapisz" Background="White" HorizontalAlignment="Left" Margin="68,176,0,0" VerticalAlignment="Top" Width="126" Height="30" Click="btnZapiszWizyty_Click"/>
         <DataGrid x:Name="grdChorobyAddWizyty" HorizontalAlignment="Left" Height="279" Margin="325,0,0,0" VerticalAlignment="Top" Width="347" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF0000"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Green"/>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nr Choroby" Binding="{Binding nr_choroby}"/>
                 <DataGridTextColumn Header="Opis Choroby" Binding="{Binding opis_choroby}"/>
