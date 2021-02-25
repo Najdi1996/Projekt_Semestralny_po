@@ -20,8 +20,6 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class NewPacjent : Window
     {
-        public delegate void PacjenciEntityChanged();
-        public event PacjenciEntityChanged pacjenciEntityChanged;
         public NewPacjent()
         {
             InitializeComponent();
@@ -78,15 +76,11 @@ namespace Projekt_programowanie_obiektowe
                 catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
                 {
                     MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                    this.DialogResult = false;
                     return;
                 }
                 MessageBox.Show(msg);
-
-
-                if (pacjenciEntityChanged != null)
-                {
-                    pacjenciEntityChanged();
-                }
+                this.DialogResult = true;
                 this.Close();
 
             }

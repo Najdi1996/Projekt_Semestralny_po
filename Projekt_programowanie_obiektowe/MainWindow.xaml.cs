@@ -48,7 +48,7 @@ namespace Projekt_programowanie_obiektowe
             NewChoroba nce = new NewChoroba(grdChoroby.SelectedItem as Choroby);
             nce.Activate();
             nce.ShowDialog();
-            nce.chorobyEntityChanged += ChorobyEntityChanged_Handler;
+            
         }
 
         private void btnDeleteChoroba_Click(object sender, RoutedEventArgs e)
@@ -125,7 +125,7 @@ namespace Projekt_programowanie_obiektowe
             NewLekarz nle = new NewLekarz(grdLekarze.SelectedItem as Lekarze);
             nle.Activate();
             nle.ShowDialog();
-            nle.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
+            
         }
 
         private List<Pacjenci> readPacjenci()
@@ -171,7 +171,7 @@ namespace Projekt_programowanie_obiektowe
             NewPacjent npe = new NewPacjent(grdPacjenci.SelectedItem as Pacjenci);
             npe.Activate();
             npe.ShowDialog();
-            npe.pacjenciEntityChanged += PacjenciEntityChanged_Handler;
+            
         }
         private List<Wizyty> readWizyty()
         {
@@ -208,24 +208,31 @@ namespace Projekt_programowanie_obiektowe
         }
         private void btnEditWizyty_Click(object sender, RoutedEventArgs e)
         {
+            List<Wizyty> wiz;
+            List<Choroby> chr;
+            List<Pacjenci> pac;
+            List<Lekarze> lek;
+            Wizyty wiztoselect;
+            List<Choroby> chorobyselected;
+
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-                List<Wizyty> wiz = db.Wizyty.ToList();
-                List<Choroby> chr = db.Choroby.ToList();
-                List<Pacjenci> pac = db.Pacjenci.ToList();
-                List<Lekarze> lek = db.Lekarze.ToList();
-                Wizyty wiztoselect = grdWizyty.SelectedItem as Wizyty;
+                wiz = db.Wizyty.ToList();
+                chr = db.Choroby.ToList();
+                pac = db.Pacjenci.ToList();
+                lek = db.Lekarze.ToList();
+                wiztoselect = grdWizyty.SelectedItem as Wizyty;
                 //db.Wizyty.Attach(wiztoselect);
                 //db.Entry(wiztoselect).State = EntityState.Unchanged;
                 //wiztoselect.Choroby.Include(w => w.Choroby);
                 //db.Entry(wiztoselect).Collection(w => w.Choroby).Load();
-                List<Choroby> chorobyselected = chr.Where(chch => wiztoselect.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby)).ToList();
-            
-                NewWizyta nwe = new NewWizyta(lek , chr, pac, wiztoselect , chorobyselected);
-                nwe.Activate();
-                nwe.ShowDialog();
-                nwe.wizytyEntityChanged += WizytyEntityChanged_Handler;
+                chorobyselected = chr.Where(chch => wiztoselect.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby)).ToList();
+           
             };
+            NewWizyta nwe = new NewWizyta(lek, chr, pac, wiztoselect, chorobyselected);
+            nwe.Activate();
+            nwe.ShowDialog();
+            
         }
 
 
@@ -289,38 +296,27 @@ namespace Projekt_programowanie_obiektowe
 
         }
 
-        private void ChorobyEntityChanged_Handler()
-        {
-            populateChorobyGrid();
-        }
-
         private void btnNowaChoroba_Click(object sender, RoutedEventArgs e)
         {
             NewChoroba nc = new NewChoroba();
             nc.Activate();
-            nc.ShowDialog();
-            nc.chorobyEntityChanged += ChorobyEntityChanged_Handler;
+            bool? result = nc.ShowDialog();
+            if(result == true)
+            {
+                populateChorobyGrid();
+            }
         }
-
-
-        private void LekarzeEntityChanged_Handler()
-        {
-            populateLekarzeGrid(); 
-        }
-
 
         private void btnNowyLekarz_Click(object sender, RoutedEventArgs e)
         {
             NewLekarz nl = new NewLekarz();
             nl.Activate();
-            nl.ShowDialog();
-            nl.lekarzeEntityChanged += LekarzeEntityChanged_Handler;
-            
-        }
+            bool? result = nl.ShowDialog();
+            if (result == true)
+            {
+                populateLekarzeGrid();
+            }
 
-        private void PacjenciEntityChanged_Handler()
-        {
-            populatePacjenciGrid();
         }
 
         private void btnNowyPacjent_Click(object sender, RoutedEventArgs e)
@@ -328,21 +324,25 @@ namespace Projekt_programowanie_obiektowe
             
             NewPacjent np = new NewPacjent();
             np.Activate();
-            np.ShowDialog();
-            np.pacjenciEntityChanged += PacjenciEntityChanged_Handler;
+            bool? result = np.ShowDialog();
+            if (result == true)
+            {
+                populatePacjenciGrid();
+            }
 
         }
-        private void WizytyEntityChanged_Handler()
-        {
-            populateWizyty();
-        }
+        
 
         private void btnNowaWizyta_Click(object sender, RoutedEventArgs e)
         {
             NewWizyta nw = new NewWizyta(this.readLekarze(), this.readChoroby(), this.readPacjenci());
             nw.Activate();
-            nw.ShowDialog();
-            nw.wizytyEntityChanged += WizytyEntityChanged_Handler;
+            bool? result = nw.ShowDialog();
+            if (result == true)
+            {
+                populateWizyty();
+            }
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -25,17 +25,15 @@ namespace Projekt_programowanie_obiektowe
         List<Pacjenci> pacjenci;
         Wizyty wizyta;
 
-        public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby , List<Pacjenci> pacjenci)
-        {
-            InitializeComponent();
-            PrepareWindowData(lekarze, choroby,  pacjenci);
-
-        }
-        public delegate void WizytyEntityChanged();
-        public event WizytyEntityChanged wizytyEntityChanged;
         public NewWizyta()
         {
             InitializeComponent();
+        }
+        public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci)
+        {
+            InitializeComponent();
+            PrepareWindowData(lekarze, choroby, pacjenci);
+
         }
         public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci , Wizyty wizyta , List<Choroby> chorobyselected)
         {
@@ -75,36 +73,62 @@ namespace Projekt_programowanie_obiektowe
 
         private void btnZapiszWizyty_Click(object sender, RoutedEventArgs e)
         {
-            Wizyty wizyta = new Wizyty
+            Wizyty wizyta;
+            
+            if(this.wizyta != null)
             {
-                
-                data_wizyty = data_wizytyDatePicker.DisplayDate,
-                nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza,
-                pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta
-                 
-        };
+                wizyta = this.wizyta;
+                wizyta.Choroby.Clear();
+                wizyta.data_wizyty = data_wizytyDatePicker.DisplayDate;
+                wizyta.nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza;
+                wizyta.pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta;
+            }
+            else
+            {
+                 wizyta = new Wizyty
+                {
+
+                    data_wizyty = data_wizytyDatePicker.DisplayDate,
+                    nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza,
+                    pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta
+
+                };
+            }
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
-
-                string msg;
+                if (this.wizyta != null)
+                {
+                    db.Wizyty.Attach(this.wizyta);
+                }
+                
+                
                 foreach (Choroby chr in grdChorobyAddWizyty.SelectedItems)
                 {
                     db.Choroby.Attach(chr);
                     chr.Wizyty.Add(wizyta);
                 }
-
-                db.Wizyty.Add(wizyta);
-
+                string msg;
                 if (pesel_pacjentaComboBox != null && nr_lekarzaComboBox != null && data_wizytyDatePicker != null)
                 {
-                    db.Wizyty.Add(wizyta);
-                    msg = "Informacja o wizycie dodana do bazy";
+                    if(this.wizyta != null)
+                    {
+                        db.Entry(wizyta).State = EntityState.Modified;
+                        msg = "Informacja o wizycie została zmieniona w bazie";
+                    }
+                    else
+                    {
+                        db.Wizyty.Add(wizyta);
+                        msg = "Informacja o wizycie dodana do bazy";
+                    }
+                    
                 }
                 else
                 {
-                    db.Entry(wizyta).State = EntityState.Modified;
-                    msg = "Informacja o wizycie została zmieniona w bazie";
+                    MessageBox.Show("Dane wizyty nie zostały w pełni wprowadzone");
+                    this.DialogResult = false;
+                    return;
                 }
+                
                 try
                 {
                     db.SaveChanges();
@@ -112,15 +136,11 @@ namespace Projekt_programowanie_obiektowe
                 catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
                 {
                     MessageBox.Show("Wystąpił problem z zapisem do bazy , opis błędu : " + ex.InnerException.InnerException.Message);
+                    this.DialogResult = false;
                     return;
                 }
                 MessageBox.Show(msg);
-
-
-                if (wizytyEntityChanged != null)
-                {
-                    wizytyEntityChanged();
-                }
+                this.DialogResult = true;
                 this.Close();
 
             }
