@@ -21,7 +21,9 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+        /// <summary>
+        /// Główny konstruktor inicjalizujący dane z tabel.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -71,12 +73,10 @@ namespace Projekt_programowanie_obiektowe
                         return;
                     }
                 }
-
                 populateChorobyGrid();
                 MessageBox.Show("Informacja o lekarzu została usunięta z bazy");
-
-                }
             }
+        }
 
         private List<Lekarze> readLekarze()
         {
@@ -222,17 +222,17 @@ namespace Projekt_programowanie_obiektowe
                 pac = db.Pacjenci.ToList();
                 lek = db.Lekarze.ToList();
                 wiztoselect = grdWizyty.SelectedItem as Wizyty;
-                //db.Wizyty.Attach(wiztoselect);
-                //db.Entry(wiztoselect).State = EntityState.Unchanged;
-                //wiztoselect.Choroby.Include(w => w.Choroby);
-                //db.Entry(wiztoselect).Collection(w => w.Choroby).Load();
                 chorobyselected = chr.Where(chch => wiztoselect.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby)).ToList();
            
             };
             NewWizyta nwe = new NewWizyta(lek, chr, pac, wiztoselect, chorobyselected);
             nwe.Activate();
-            nwe.ShowDialog();
-            
+            bool? result = nwe.ShowDialog();
+            if (result == true)
+            {
+                populateWizyty();
+            }
+
         }
 
 

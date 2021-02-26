@@ -20,11 +20,16 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class NewChoroba : Window
     {
-        
+        /// <summary>
+        /// Główny konstruktor Nowych Chorób.
+        /// </summary>
         public NewChoroba()
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// Konstruktor odpowiedzialny za edycje w tabeli.
+        /// </summary>
         public NewChoroba(Choroby choroba)
         {
             InitializeComponent();

@@ -10,7 +10,7 @@
         Title="Przychodnia" Height="448.333" Width="800" Loaded="Window_Loaded" Background="Blue">
     <Window.Resources>
 
-       
+
         <CollectionViewSource x:Key="wizytyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Wizyty}, CreateList=True}"/>
 
     </Window.Resources>
@@ -152,8 +152,8 @@
             </Grid>
         </TabItem>
         <TabItem Header="Wizyty" FontWeight="Black" Width="150" Height="35">
-            <Grid Background="Blue">
-                <DataGrid x:Name="grdWizyty" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="380" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0" MouseLeftButtonDown="grdWizyty_MouseLeftButtonDown" AutoGenerateColumns="False" IsReadOnly="True" Background="Blue">
+            <Grid Background="Blue" Margin="0,0,-0.4,-2.4">
+                <DataGrid x:Name="grdWizyty" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" Height="242" VerticalAlignment="Top" Width="762" Margin="0,0,-0.4,0" MouseLeftButtonDown="grdWizyty_MouseLeftButtonDown" AutoGenerateColumns="False" IsReadOnly="True" Background="Blue">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Imię Lekarza" Binding="{Binding Lekarze.imie_lekarza}"/>
                         <DataGridTextColumn Header="Nazwisko Lekarza" Binding="{Binding Lekarze.nazwisko_lekarza}"/>
@@ -170,15 +170,15 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnDelWizytyAction" Content="Usuń" Click="btnDeleteWizyty_Click" Background="White" Margin="35,0,5,0"/>
-                                        <Button x:Name="btnEditWizytyAction" Content="Edytuj" Click="btnEditWizyty_Click" Background="White" Margin="5,0,55,0"/>
+                                        <Button x:Name="btnDelWizytyAction" Content="Usuń" Click="btnDeleteWizyty_Click" Background="White" Margin="10,0,5,0"/>
+                                        <Button x:Name="btnEditWizytyAction" Content="Edytuj" Click="btnEditWizyty_Click" Background="White" Margin="5,0,10,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button x:Name="btnNowaWizyta" Content="Nowa Wizyta" HorizontalAlignment="Left" Margin="172,245,0,0" VerticalAlignment="Top" Width="176" Height="41" Click="btnNowaWizyta_Click"/>
+                <Button x:Name="btnNowaWizyta" Content="Nowa Wizyta" HorizontalAlignment="Left" Margin="72,291,0,0" VerticalAlignment="Top" Width="171" Height="35" Click="btnNowaWizyta_Click"/>
 
             </Grid>
         </TabItem>

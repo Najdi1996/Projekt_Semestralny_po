@@ -25,16 +25,24 @@ namespace Projekt_programowanie_obiektowe
         List<Pacjenci> pacjenci;
         Wizyty wizyta;
 
-        public NewWizyta()
-        {
-            InitializeComponent();
-        }
+        
+        /// <summary>
+        /// Konstruktor dla wprowadzenia nowych wartości do tabeli.
+        /// </summary>
         public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci)
         {
             InitializeComponent();
             PrepareWindowData(lekarze, choroby, pacjenci);
 
         }
+        /// <summary>
+        /// Konstruktor dla edycji wprowadzonych wartości.
+        /// </summary>
+        /// <param name="lekarze">Pokazuje wszystkich lekarzy z listy Lekarzy.</param>
+        /// <param name="choroby">Pokazuje wszystkie choroby z listy Chorób.</param>
+        /// <param name="pacjenci">Pokazuje wszystkich pacjentów z listy Pacjentów.</param>
+        /// <param name="wizyta">Odpowiada za pokazanie umówionych wizyt.</param>
+        
         public NewWizyta(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci , Wizyty wizyta , List<Choroby> chorobyselected)
         {
             InitializeComponent();
@@ -42,17 +50,8 @@ namespace Projekt_programowanie_obiektowe
             this.wizyta = wizyta;
             nr_lekarzaComboBox.SelectedItem = lekarze.Where(ll => ll.nr_lekarza == wizyta.nr_lekarza).First();
             pesel_pacjentaComboBox.SelectedItem = pacjenci.Where(pp => pp.pesel_pacjenta == wizyta.pesel_pacjenta).First();
-            //List<Choroby> chorobyselected = choroby.Where(chch => wizyta.Choroby.Any(wc => wc.nr_choroby == chch.nr_choroby)).ToList();
-            chorobyselected.ForEach(chrf => grdChorobyAddWizyty.SelectedItems.Add(chrf));
-            //grdChorobyAddWizyty.SelectedItems.Add(chorobyselected);
-            //Lekarze qq = lekarze.Where(ll => ll.nr_lekarza == wizyta.nr_lekarza).First();
-            /*
             data_wizytyDatePicker.SelectedDate = wizyta.data_wizyty;
-            nr_lekarzaTextBox.Text = wizyta.nr_lekarza.ToString();
-            nr_wizytyTextBox.Text = wizyta.nr_wizyty.ToString();
-            pesel_pacjentaTextBox.Text = wizyta.pesel_pacjenta;
-            pesel_pacjentaTextBox.IsEnabled = false;
-            */
+            chorobyselected.ForEach(chrf => grdChorobyAddWizyty.SelectedItems.Add(chrf));
         }
         private void PrepareWindowData(List<Lekarze> lekarze, List<Choroby> choroby, List<Pacjenci> pacjenci)
         {
@@ -75,38 +74,41 @@ namespace Projekt_programowanie_obiektowe
         {
             Wizyty wizyta;
             
-            if(this.wizyta != null)
-            {
-                wizyta = this.wizyta;
-                wizyta.Choroby.Clear();
-                wizyta.data_wizyty = data_wizytyDatePicker.DisplayDate;
-                wizyta.nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza;
-                wizyta.pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta;
-            }
-            else
-            {
-                 wizyta = new Wizyty
-                {
-
-                    data_wizyty = data_wizytyDatePicker.DisplayDate,
-                    nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza,
-                    pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta
-
-                };
-            }
+           
             using (PrzychodniaProjectDBEntities db = new PrzychodniaProjectDBEntities())
             {
+                
                 if (this.wizyta != null)
                 {
                     db.Wizyty.Attach(this.wizyta);
+                    wizyta = this.wizyta;
+                    wizyta.Choroby.Clear();
+                    wizyta.data_wizyty = (DateTime)data_wizytyDatePicker.SelectedDate;
+                    wizyta.nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza;
+                    wizyta.pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta;
+                    foreach (Choroby chr in grdChorobyAddWizyty.SelectedItems)
+                    {
+                        db.Choroby.Attach(chr);
+                        chr.Wizyty.Add(wizyta);
+                    }
                 }
-                
-                
-                foreach (Choroby chr in grdChorobyAddWizyty.SelectedItems)
+                else
                 {
-                    db.Choroby.Attach(chr);
-                    chr.Wizyty.Add(wizyta);
+                    wizyta = new Wizyty
+                    {
+
+                        data_wizyty = (DateTime)data_wizytyDatePicker.SelectedDate,
+                        nr_lekarza = (nr_lekarzaComboBox.SelectedItem as Lekarze).nr_lekarza,
+                        pesel_pacjenta = (pesel_pacjentaComboBox.SelectedItem as Pacjenci).pesel_pacjenta
+                        
+                    };
+                    foreach (Choroby chr in grdChorobyAddWizyty.SelectedItems)
+                    {
+                        db.Choroby.Attach(chr);
+                        chr.Wizyty.Add(wizyta);
+                    }
                 }
+
                 string msg;
                 if (pesel_pacjentaComboBox != null && nr_lekarzaComboBox != null && data_wizytyDatePicker != null)
                 {
@@ -146,7 +148,6 @@ namespace Projekt_programowanie_obiektowe
             }
         }
 
-        
     }
 }
 

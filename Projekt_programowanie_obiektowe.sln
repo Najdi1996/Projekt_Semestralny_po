@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt_programowanie_obiektowe", "Projekt_programowanie_obiektowe\Projekt_programowanie_obiektowe.csproj", "{34D30C92-DC3E-4A34-BB19-42658CAE631B}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Przychodnia Setup", "Przychodnia Setup\Przychodnia Setup.vdproj", "{F4DEB1A4-C3E0-4AFD-A434-6C966410B044}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Przychodnia", "Przychodnia\Przychodnia.vdproj", "{A99CEC1B-442D-42E2-A5E7-0666A4CA5CD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{34D30C92-DC3E-4A34-BB19-42658CAE631B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34D30C92-DC3E-4A34-BB19-42658CAE631B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34D30C92-DC3E-4A34-BB19-42658CAE631B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4DEB1A4-C3E0-4AFD-A434-6C966410B044}.Debug|Any CPU.ActiveCfg = Debug
-		{F4DEB1A4-C3E0-4AFD-A434-6C966410B044}.Release|Any CPU.ActiveCfg = Release
+		{A99CEC1B-442D-42E2-A5E7-0666A4CA5CD5}.Debug|Any CPU.ActiveCfg = Debug
+		{A99CEC1B-442D-42E2-A5E7-0666A4CA5CD5}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

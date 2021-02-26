@@ -20,11 +20,16 @@ namespace Projekt_programowanie_obiektowe
     /// </summary>
     public partial class NewLekarz : Window
     {
-       
+        /// <summary>
+        /// Główny konstruktor Nowych Lekarzy.
+        /// </summary>
         public NewLekarz()
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// Konstruktor odpowiedzialny za edycje w tabeli.
+        /// </summary>
         public NewLekarz(Lekarze lekarz)
         {
 
